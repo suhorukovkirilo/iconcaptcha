@@ -152,10 +152,14 @@ function getPattern() {
 };
 
 function getIcon() {
-    return 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/icons/' + RandInt(1, 140).toString() + '.png'
+    return Icon(RandInt(1, 140).toString())
 };
 
-function Captcha(onfail, onsuccess) {
+function Icon(id) {
+    return 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/icons/' + id + '.png'
+};
+
+function Captcha(onfail, onsuccess, onclose) {
     function success() {
         onsuccess();
     };
@@ -172,6 +176,18 @@ function Captcha(onfail, onsuccess) {
     dialog.style.padding = '10px';
     dialog.style.paddingLeft = '25px';
     dialog.style.paddingRight = '25px';
+
+    var close = document.createElement('img');
+    close.src = Icon('close');
+    close.style.width = '16px';
+    close.style.height = '16px';
+    close.style.position = 'relative';
+    close.style.top = '0.1%';
+    close.style.left = '99%';
+    close.addEventListener('click', function() {
+        dialog.close();
+        onclose();
+    });
 
     var captcha = document.createElement('div');
     captcha.style.backgroundColor = '#ffffff';
@@ -191,6 +207,7 @@ function Captcha(onfail, onsuccess) {
     var a4 = document.createElement('img');
     var a5 = document.createElement('img');
 
+    dialog.appendChild(close);
     dialog.appendChild(text);
 
     captcha.appendChild(a1);
