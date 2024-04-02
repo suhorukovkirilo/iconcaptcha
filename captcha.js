@@ -165,8 +165,25 @@ function Captcha(onfail, onsuccess) {
     };
 
     var dialog = document.createElement('dialog');
-    var text = document.createElement('p');
+    dialog.id = 'IconCaptchaDialog';
+    dialog.style.backgroundColor = '#4c4c4c';
+    dialog.style.border = '3px solid rgba(0, 0, 0, 0.2)';
+    dialog.style.borderRadius = '15px';
+    dialog.style.padding = '10px';
+    dialog.style.paddingLeft = '25px';
+    dialog.style.paddingRight = '25px';
+
     var captcha = document.createElement('div');
+    captcha.style.backgroundColor = '#ffffff';
+    captcha.style.display = 'flex';
+    captcha.style.justifyContent = 'center';
+    captcha.style.gap = '5px';
+    captcha.style.padding = '5px';
+    captcha.style.border = '2px solid rgba(0, 0, 0, 0.2)'
+    captcha.style.borderRadius = '10px';
+    var text = document.createElement('p');
+    text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
+    text.style.color = '#ffffff';
 
     var a1 = document.createElement('img');
     var a2 = document.createElement('img');
@@ -174,13 +191,14 @@ function Captcha(onfail, onsuccess) {
     var a4 = document.createElement('img');
     var a5 = document.createElement('img');
 
+    dialog.appendChild(text);
+
     captcha.appendChild(a1);
     captcha.appendChild(a2);
     captcha.appendChild(a3);
     captcha.appendChild(a4);
     captcha.appendChild(a5);
 
-    dialog.appendChild(text);
     dialog.appendChild(captcha);
 
     document.body.appendChild(dialog);
@@ -210,8 +228,8 @@ function Captcha(onfail, onsuccess) {
         var src = icons[pattern[i]];
         image.src = src;
         image.style.transform = 'rotate(' + (RandInt(0, 3) * 90).toString() + 'deg)';
-        image.style.width = '64px';
-        image.style.height = '64px';
+        image.style.width = '48px';
+        image.style.height = '48px';
         if (pattern[i] === 0) {
             image.addEventListener('click', success);
         } else {
