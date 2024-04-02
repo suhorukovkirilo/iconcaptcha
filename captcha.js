@@ -160,6 +160,7 @@ function Icon(id) {
 };
 
 function Captcha(onfail, onsuccess, onclose) {
+    CapcthaOpened = true; 
     var dialog = document.createElement('dialog');
     dialog.id = 'IconCaptchaDialog';
     dialog.style.backgroundColor = '#4c4c4c';
@@ -178,8 +179,10 @@ function Captcha(onfail, onsuccess, onclose) {
     close.style.position = 'relative';
     close.style.top = '0.1%';
     close.style.left = '107%';
+    close.style.cursor = 'pointer';
     close.addEventListener('click', function() {
         dialog.close();
+        CapcthaOpened = false;
         onclose();
     });
 
@@ -199,7 +202,13 @@ function Captcha(onfail, onsuccess, onclose) {
     load.style.position = 'absolute';
     load.style.top = '42px';
     load.style.left = '18px';
-
+    load.style.cursor = 'pointer';
+    load.addEventListener('click', function() {
+        dialog.removeChild(load);
+        dialog.removeChild(loadText)
+        dialog.style.height = '130px';
+        CaptchaProccess(onfail, onsuccess, onclose);
+    })
 
     var loadText = document.createElement('div');
     loadText.innerHTML = 'Підтвердіть, що ви людина';
@@ -265,10 +274,12 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         captcha.appendChild(successText);
 
         timer = setInterval(function() {
-            dialog.innerHTML = '';
-            dialog.close();
             clearInterval(timer);
-            onsuccess();
+            if (CapcthaOpened) {
+                dialog.innerHTML = '';
+                dialog.close();
+                onsuccess();
+            };
         }, RandInt(2000, 3000));
     };
 
@@ -301,13 +312,44 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         captcha.appendChild(failText);
 
         timer = setInterval(function() {
-            dialog.innerHTML = '';
-            dialog.close();
             clearInterval(timer);
-            if (CaptchaAttempts > 0) {
-                Captcha(onfail, onsuccess, onclose);
-            } else {
-                onfail();
+            if (CapcthaOpened === true) {
+                dialog.innerHTML = '';
+                dialog.close();
+                if (CaptchaAttempts > 0) {
+                    var close = document.createElement('img');
+                    close.src = Icon('close');
+                    close.style.width = '16px';
+                    close.style.height = '16px';
+                    close.style.position = 'relative';
+                    close.style.top = '0.1%';
+                    close.style.left = '107%';
+                    close.style.cursor = 'pointer';
+                    close.addEventListener('click', function() {
+                        dialog.close();
+                        CapcthaOpened = false;
+                        onclose();
+                    });
+
+                    var copyright = document.createElement('div');
+                    copyright.innerHTML = '©Icon Captcha';
+                    copyright.style.position = 'relative';
+                    copyright.style.top = '0.1%';
+                    copyright.style.left = '-7%';
+                    copyright.style.color = 'rgba(255, 255, 255, 0.25)';
+                    var coverDiv = document.createElement('div');
+                    coverDiv.style.display = 'flex';
+                    coverDiv.style.width = '66%';
+                    
+                    coverDiv.appendChild(copyright);
+                    coverDiv.appendChild(close);
+                    dialog.appendChild(coverDiv);
+
+                    CaptchaProccess(onfail, onsuccess, onclose);
+                    dialog.showModal();
+                } else {
+                    onfail();
+                };
             };
         }, RandInt(2000, 3000));
     };
@@ -382,9 +424,6 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
 };
 
 var CaptchaAttempts = 3;
+var CapcthaOpened = false;
 
 Captcha(function(){console.log("fail")}, function(){console.log("success")});
-
-var dialog = document.getElementById('IconCaptchaDialog')
-console.log(dialog.offsetWidth)
-console.log(dialog.offsetHeight)
