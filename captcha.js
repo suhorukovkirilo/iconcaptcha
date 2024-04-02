@@ -104,6 +104,7 @@ function Captcha(onfail, onsuccess) {
         var image = images[i];
         var src = icons[pattern[i]];
         image.src = src;
+        image.style.transform = 'rotate(' + (RandInt(0, 3) * 90).toString() + 'deg)';
         if (pattern[i] === 0) {
             image.addEventListener('click', success);
         } else {
