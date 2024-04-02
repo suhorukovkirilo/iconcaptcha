@@ -305,7 +305,7 @@ function Captcha(onfail, onsuccess, onclose) {
     close.style.cursor = 'pointer';
     close.addEventListener('click', function() {
         dialog.close();
-        CapcthaOpened = false;
+        DestroyCaptcha();
         onclose();
     });
 
@@ -399,11 +399,11 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         timer = setInterval(function() {
             clearInterval(timer);
             if (CapcthaOpened) {
-                dialog.innerHTML = '';
                 dialog.close();
+                DestroyCaptcha();
                 onsuccess();
             };
-        }, RandInt(2000, 3000));
+        }, RandInt(2500, 4000));
     };
 
     function fail() {
@@ -471,10 +471,11 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
                     CaptchaProccess(onfail, onsuccess, onclose);
                     dialog.showModal();
                 } else {
+                    DestroyCaptcha();
                     onfail();
                 };
             };
-        }, RandInt(2000, 3000));
+        }, RandInt(2500, 4000));
     };
 
     var dialog = document.getElementById('IconCaptchaDialog');
@@ -540,8 +541,8 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
             image.style.width = '48px';
             image.style.height = '48px';
         } else {
-            image.style.width = '44px';
-            image.style.height = '44px';
+            image.style.width = '42px';
+            image.style.height = '42px';
         }
         image.style.cursor = 'pointer';
         if (pattern[i] === 0) {
@@ -550,6 +551,12 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
             image.addEventListener('click', fail);
         };
     };    
+};
+
+function DestroyCaptcha() {
+    document.getElementById('IconCaptchaDialog').outerHTML = "";
+    CaptchaAttempts = 3;
+    CapcthaOpened = false;
 };
 
 var CaptchaAttempts = 3;
