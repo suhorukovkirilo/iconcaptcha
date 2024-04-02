@@ -185,11 +185,47 @@ function Captcha(onfail, onsuccess, onclose) {
             dialog.close();
             clearInterval(timer);
             onsuccess();
-        }, RandInt(2500, 4000));
+        }, RandInt(2000, 3000));
     };
 
     function fail() {
-        onfail();
+        CaptchaAttempts -= 1;
+
+        while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
+
+        var fail = document.createElement('img');
+        fail.src = Icon('fail');
+        fail.style.width = '48px';
+        fail.style.height = '48px';
+        fail.style.marginLeft = '20px';
+        fail.style.marginRight = '5px';
+
+        var failText = document.createElement('div');
+        if (CaptchaAttempts > 1) {
+            failText.innerHTML = 'Ой-ой... Лишилось ' + CaptchaAttempts.toString() + ' спроби';
+        } else if (CaptchaAttempts === 1) {
+            failText.innerHTML = 'Ой-ой... Лишилось 1 спроба';
+        } else {
+            failText.innerHTML = 'Ой-ой...';
+        };
+        failText.style.color = 'darkred';
+        failText.style.fontSize = '24px';
+
+        captcha.style.alignItems = 'center';
+        captcha.style.justifyContent = 'left'
+        captcha.appendChild(fail);
+        captcha.appendChild(failText);
+
+        timer = setInterval(function() {
+            dialog.innerHTML = '';
+            dialog.close();
+            clearInterval(timer);
+            if (CaptchaAttempts > 0) {
+                Captcha(onfail, onsuccess, onclose);
+            } else {
+                onfail();
+            };
+        }, RandInt(2000, 3000));
     };
 
     var dialog = document.createElement('dialog');
@@ -200,6 +236,7 @@ function Captcha(onfail, onsuccess, onclose) {
     dialog.style.padding = '10px';
     dialog.style.paddingLeft = '25px';
     dialog.style.paddingRight = '25px';
+    dialog.style.zIndex = '2';
 
     var close = document.createElement('img');
     close.src = Icon('close');
@@ -232,7 +269,7 @@ function Captcha(onfail, onsuccess, onclose) {
     var text = document.createElement('div');
     text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
     text.style.color = '#ffffff';
-    text.style.marginTop = '20px';
+    text.style.marginTop = '15px';
     text.style.marginBottom = '10px';
 
     var a1 = document.createElement('img');
@@ -246,9 +283,9 @@ function Captcha(onfail, onsuccess, onclose) {
     coverDiv.style.width = '66%';
     
 
-    coverDiv.appendChild(copyright)
+    coverDiv.appendChild(copyright);
     coverDiv.appendChild(close);
-    dialog.appendChild(coverDiv)
+    dialog.appendChild(coverDiv);
     dialog.appendChild(text);
 
     captcha.appendChild(a1);
@@ -288,6 +325,7 @@ function Captcha(onfail, onsuccess, onclose) {
         image.style.transform = 'rotate(' + (RandInt(0, 3) * 90).toString() + 'deg)';
         image.style.width = '48px';
         image.style.height = '48px';
+        image.style.cursor = 'pointer';
         if (pattern[i] === 0) {
             image.addEventListener('click', success);
         } else {
@@ -297,5 +335,7 @@ function Captcha(onfail, onsuccess, onclose) {
 
     dialog.showModal();
 };
+
+var CaptchaAttempts = 3;
 
 Captcha(function(){console.log("fail")}, function(){console.log("success")});
