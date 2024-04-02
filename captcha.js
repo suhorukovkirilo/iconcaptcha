@@ -179,6 +179,13 @@ function Captcha(onfail, onsuccess, onclose) {
         captcha.style.justifyContent = 'left'
         captcha.appendChild(success);
         captcha.appendChild(successText);
+
+        timer = setInterval(function() {
+            dialog.innerHTML = '';
+            dialog.close();
+            clearInterval(timer);
+            onsuccess();
+        }, RandInt(2500, 4000));
     };
 
     function fail() {
