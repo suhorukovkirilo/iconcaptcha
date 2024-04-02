@@ -161,7 +161,24 @@ function Icon(id) {
 
 function Captcha(onfail, onsuccess, onclose) {
     function success() {
-        onsuccess();
+        while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
+
+        var success = document.createElement('img');
+        success.src = Icon('success');
+        success.style.width = '48px';
+        success.style.height = '48px';
+        success.style.marginLeft = '20px';
+        success.style.marginRight = '5px';
+
+        var successText = document.createElement('div');
+        successText.innerHTML = 'Успішно!';
+        successText.style.color = 'darkgreen';
+        successText.style.fontSize = '32px';
+
+        captcha.style.alignItems = 'center';
+        captcha.style.justifyContent = 'left'
+        captcha.appendChild(success);
+        captcha.appendChild(successText);
     };
 
     function fail() {
@@ -183,11 +200,18 @@ function Captcha(onfail, onsuccess, onclose) {
     close.style.height = '16px';
     close.style.position = 'relative';
     close.style.top = '0.1%';
-    close.style.left = '99%';
+    close.style.left = '107%';
     close.addEventListener('click', function() {
         dialog.close();
         onclose();
     });
+
+    var copyright = document.createElement('div');
+    copyright.innerHTML = '©Icon Captcha';
+    copyright.style.position = 'relative';
+    copyright.style.top = '0.1%';
+    copyright.style.left = '-7%';
+    copyright.style.color = 'rgba(255, 255, 255, 0.25)';
 
     var captcha = document.createElement('div');
     captcha.style.backgroundColor = '#ffffff';
@@ -195,11 +219,14 @@ function Captcha(onfail, onsuccess, onclose) {
     captcha.style.justifyContent = 'center';
     captcha.style.gap = '5px';
     captcha.style.padding = '5px';
-    captcha.style.border = '2px solid rgba(0, 0, 0, 0.2)'
+    captcha.style.border = '2px solid rgba(0, 0, 0, 0.2)';
     captcha.style.borderRadius = '10px';
-    var text = document.createElement('p');
+
+    var text = document.createElement('div');
     text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
     text.style.color = '#ffffff';
+    text.style.marginTop = '20px';
+    text.style.marginBottom = '10px';
 
     var a1 = document.createElement('img');
     var a2 = document.createElement('img');
@@ -207,7 +234,14 @@ function Captcha(onfail, onsuccess, onclose) {
     var a4 = document.createElement('img');
     var a5 = document.createElement('img');
 
-    dialog.appendChild(close);
+    var coverDiv = document.createElement('div');
+    coverDiv.style.display = 'flex';
+    coverDiv.style.width = '66%';
+    
+
+    coverDiv.appendChild(copyright)
+    coverDiv.appendChild(close);
+    dialog.appendChild(coverDiv)
     dialog.appendChild(text);
 
     captcha.appendChild(a1);
