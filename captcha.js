@@ -279,7 +279,7 @@ function getIcon() {
 };
 
 function Icon(id) {
-    return 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/icons/' + id + '.png'
+    return 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/icons/' + id + '.png'
 };
 
 function LoadStyles() {
@@ -288,7 +288,7 @@ function LoadStyles() {
     } catch(error) {};
     var style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/captcha.css';
+    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/captcha.css';
     style.id = 'IconCaptcha-Styling';
 
     document.head.appendChild(style);
