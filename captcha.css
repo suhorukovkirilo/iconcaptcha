@@ -1,1 +1,100 @@
+#IconCaptchaDialog {
+    background-color: #4c4c4c;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    width: 340px;
+    user-select: none;    
+}
 
+#IconCaptchaDialog .DialogClose {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 0.1%;
+    left: 107%;
+    cursor: pointer;
+}
+
+#IconCaptchaDialog .DialogCopyright {
+    position: relative;
+    top: 0.1%;
+    left: -7%;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+#IconCaptchaDialog .DialogLoading {
+    background-color: #4c4c4c;
+    border-radius: 50%;
+    border: 6px solid #52b3d9;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 42px;
+    left: 18px;
+    cursor: pointer;
+    animation: 2s linear infinite IconCaptchaLoading;
+}
+
+#IconCaptchaDialog .Dialog1Text {
+    color: white;
+    font-size: 22px;
+    position: absolute;
+    top: 45px;
+    left: 70px;
+}
+
+#IconCaptchaDialog .CoverDiv {
+    display: flex;
+    width: 66%;
+}
+
+#IconCaptchaDialog .SuccessIcon {
+    width: 48px;
+    height: 48px;
+    margin-left: 20px;
+    margin-right: 5px;
+}
+
+#IconCaptchaDialog .SuccessText {
+    color: darkgreen;
+    font-size: 32px;
+}
+
+#IconCaptchaDialog .FailText {
+    color: darkred;
+    font-size: 24px;
+}
+
+#IconCaptchaDialog .DialogCaptcha {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+#IconCaptchaDialog .Dialog2Text {
+    color: #fff;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+@keyframes IconCaptchaLoading {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform:  scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
