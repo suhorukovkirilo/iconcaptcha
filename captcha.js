@@ -1,277 +1,82 @@
 const RandInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+function shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 function getPattern() {
-    var patterns = [
-        [0, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1],
-        [1, 1, 0, 1, 1],
-        [1, 1, 1, 0, 1],
-        [1, 1, 1, 1, 0],
+    var lenght = 8;
+    if (lenght === 5) {
+        var subtype = RandInt(1, 3);
+        if (subtype === 1) {
+            var pattern = [0, 1, 1, 1, 1];
+        } else if (subtype === 2) {
+            var pattern = [0, 0, 1, 1, 1];
+        } else {
+            var pattern = [0, 1, 1, 2, 2];
+        };
+    } else if (lenght === 6) {
+        var subtype = RandInt(1, 4);
+        if (subtype === 1) {
+            var pattern = [0, 1, 1, 1, 1, 1];
+        } else if (subtype === 2) {
+            var pattern = [0, 0, 1, 1, 1, 1];
+        } else if (subtype === 3) {
+            var pattern = [0, 1, 1, 2, 2, 2];
+        } else {
+            var pattern = [0, 1, 1, 1, 2, 2]
+        };
+    } else if (lenght === 7) {
+        var subtype = RandInt(1, 7);
+        if (subtype === 1) {
+            var pattern = [0, 1, 1, 1, 1, 1, 1];
+        } else if (subtype === 2) {
+            var pattern = [0, 0, 1, 1, 1, 1, 1];
+        } else if (subtype === 3) {
+            var pattern = [0, 0, 0, 1, 1, 1, 1];
+        } else if (subtype === 4) {
+            var pattern = [0, 1, 1, 2, 2, 2, 2];
+        } else if (subtype === 5) {
+            var pattern = [0, 1, 1, 1, 2, 2, 2];
+        } else if (subtype === 6) {
+            var pattern = [0, 1, 1, 1, 1, 2, 2];
+        } else {
+            var pattern = [0, 1, 1, 2, 2, 3, 3]
+        }
+    } else {
+        var subtype = RandInt(1, 11);
+        if (subtype === 1) {
+            var pattern = [0, 1, 1, 1, 1, 1, 1, 1];
+        } else if (subtype === 2) {
+            var pattern = [0, 0, 1, 1, 1, 1, 1, 1];
+        } else if (subtype === 3) {
+            var pattern = [0, 0, 0, 1, 1, 1, 1, 1];
+        } else if (subtype === 4) {
+            var pattern = [0, 2, 2, 1, 1, 1, 1, 1];
+        } else if (subtype === 5) {
+            var pattern = [0, 2, 2, 2, 1, 1, 1, 1];
+        } else if (subtype === 6) {
+            var pattern = [0, 2, 2, 2, 2, 1, 1, 1];
+        } else if (subtype === 7) {
+            var pattern = [0, 2, 2, 2, 2, 2, 1, 1];
+        } else if (subtype === 8) {
+            var pattern = [0, 0, 1, 1, 1, 2, 2, 2];
+        } else if (subtype === 9) {
+            var pattern = [0, 1, 1, 2, 2, 3, 3, 3];
+        } else if (subtype === 10) {
+            var pattern = [0, 1, 1, 1, 2, 2, 3, 3];
+        } else if (subtype === 11) {
+            var pattern = [0, 1, 1, 2, 2, 2, 3, 3];
+        }
+    };
 
-        [0, 0, 1, 1, 1],
-        [1, 0, 0, 1, 1],
-        [1, 1, 0, 0, 1],
-        [1, 1, 1, 0, 0],
-
-        [0, 1, 0, 1, 1],
-        [0, 1, 1, 0, 1],
-        [0, 1, 1, 1, 0],
-        [1, 0, 1, 0, 1],
-        [1, 0, 1, 1, 0],
-        [1, 1, 0, 1, 0],
-
-        [0, 1, 1, 2, 2],
-        [0, 2, 2, 1, 1],
-        [0, 1, 2, 2, 1],
-        [0, 2, 1, 2, 1],
-        [0, 2, 1, 1, 2],
-        [0, 1, 2, 1, 2],
-
-        [1, 0, 2, 2, 1],
-        [1, 0, 1, 2, 2],
-        [1, 0, 2, 1, 2],
-        [2, 0, 2, 1, 1],
-        [2, 0, 1, 2, 1],
-        [2, 0, 1, 1, 2],
-
-        [2, 2, 0, 1, 1],
-        [1, 1, 0, 2, 2],
-        [2, 1, 0, 2, 1],
-        [2, 1, 0, 1, 2],
-        [1, 2, 0, 2, 1],
-        [1, 2, 0, 1, 2],
-
-        [2, 2, 1, 0, 1],
-        [1, 2, 2, 0, 1],
-        [2, 1, 2, 0, 1],
-        [1, 1, 2, 0, 2],
-        [1, 2, 1, 0, 2],
-        [2, 1, 1, 0, 2],
-
-        [2, 2, 1, 1, 0],
-        [1, 2, 2, 1, 0],
-        [1, 1, 2, 2, 0],
-        [2, 1, 2, 1, 0],
-        [2, 1, 1, 2, 0],
-        [1, 2, 1, 2, 0],
-
-        [0, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1],
-        [1, 1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 0, 1],
-        [1, 1, 1, 1, 1, 0],
-
-        [0, 0, 1, 1, 1, 1],
-        [1, 0, 0, 1, 1, 1],
-        [1, 1, 0, 0, 1, 1],
-        [1, 1, 1, 0, 0, 1],
-        [1, 1, 1, 1, 0, 0],
-
-        [0, 1, 0, 1, 1, 1],
-        [0, 1, 1, 0, 1, 1],
-        [0, 1, 1, 1, 0, 1],
-        [0, 1, 1, 1, 1, 0],
-        [1, 0, 1, 0, 1, 1],
-        [1, 0, 1, 1, 0, 1],
-        [1, 0, 1, 1, 1, 0],
-        [1, 1, 0, 1, 0, 1],
-        [1, 1, 0, 1, 1, 0],
-        [1, 1, 1, 0, 1, 0],
-
-        [0, 2, 2, 1, 1, 1],
-        [0, 1, 2, 2, 1, 1],
-        [0, 1, 1, 2, 2, 1],
-        [0, 1, 1, 1, 2, 2],
-        [0, 2, 1, 2, 1, 1],
-        [0, 2, 1, 1, 2, 1],
-        [0, 2, 1, 1, 1, 2],
-        [0, 1, 2, 1, 2, 1],
-        [0, 1, 2, 1, 1, 2],
-        [0, 1, 1, 2, 1, 2],
-
-        [1, 0, 2, 2, 1, 1],
-        [1, 0, 1, 2, 2, 1],
-        [1, 0, 1, 1, 2, 2],
-        [1, 0, 2, 1, 2, 1],
-        [1, 0, 2, 1, 1, 2],
-        [1, 0, 1, 2, 1, 2],
-        [2, 0, 2, 1, 1, 1],
-        [2, 0, 1, 2, 1, 1],
-        [2, 0, 1, 1, 2, 1],
-        [2, 0, 1, 1, 1, 2],
-
-        [1, 1, 0, 2, 2, 1],
-        [1, 1, 0, 2, 1, 2],
-        [1, 1, 0, 1, 2, 2],
-        [2, 2, 0, 1, 1, 1],
-        [2, 1, 0, 2, 1, 1],
-        [2, 1, 0, 1, 2, 1],
-        [2, 1, 0, 1, 1, 2],
-        [1, 2, 0, 2, 1, 1],
-        [1, 2, 0, 1, 2, 1],
-        [1, 2, 0, 1, 1, 2],
-
-        [2, 2, 1, 0, 1, 1],
-        [1, 2, 2, 0, 1, 1],
-        [2, 1, 2, 0, 1, 1],
-        [1, 1, 1, 0, 2, 2],
-        [1, 1, 2, 0, 2, 1],
-        [1, 2, 1, 0, 2, 1],
-        [2, 1, 1, 0, 2, 1],
-        [1, 1, 2, 0, 1, 2],
-        [1, 2, 1, 0, 1, 2],
-        [2, 1, 1, 0, 1, 2],
-
-        [2, 2, 1, 1, 0, 1],
-        [1, 2, 2, 1, 0, 1],
-        [1, 1, 2, 2, 0, 1],
-        [2, 1, 2, 1, 0, 1],
-        [2, 1, 1, 2, 0, 1],
-        [1, 2, 1, 2, 0, 1],
-        [2, 1, 1, 1, 0, 2],
-        [1, 2, 1, 1, 0, 2],
-        [1, 1, 2, 1, 0, 2],
-        [1, 1, 1, 2, 0, 2],
-
-        [2, 2, 1, 1, 1, 0],
-        [1, 2, 2, 1, 1, 0],
-        [1, 1, 2, 2, 1, 0],
-        [1, 1, 1, 2, 2, 0],
-        [2, 1, 2, 1, 1, 0],
-        [2, 1, 1, 2, 1, 0],
-        [2, 1, 1, 1, 2, 0],
-        [1, 2, 1, 2, 1, 0],
-        [1, 2, 1, 1, 2, 0],
-        [1, 1, 2, 1, 2, 0],
-
-        [0, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1, 1],
-        [1, 1, 1, 0, 1, 1, 1],
-        [1, 1, 1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 1, 0, 1],
-        [1, 1, 1, 1, 1, 1, 0],
-
-        [0, 0, 1, 1, 1, 1, 1],
-        [1, 0, 0, 1, 1, 1, 1],
-        [1, 1, 0, 0, 1, 1, 1],
-        [1, 1, 1, 0, 0, 1, 1],
-        [1, 1, 1, 1, 0, 0, 1],
-        [1, 1, 1, 1, 1, 0, 0],
-
-        [0, 1, 0, 1, 1, 1, 1],
-        [0, 1, 1, 0, 1, 1, 1],
-        [0, 1, 1, 1, 0, 1, 1],
-        [0, 1, 1, 1, 1, 0, 1],
-        [0, 1, 1, 1, 1, 1, 0],
-        [1, 0, 0, 1, 1, 1, 1],
-        [1, 0, 1, 0, 1, 1, 1],
-        [1, 0, 1, 1, 0, 1, 1],
-        [1, 0, 1, 1, 1, 0, 1],
-        [1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 1, 1, 0, 1],
-        [1, 1, 0, 1, 1, 1, 0],
-        [1, 1, 0, 1, 0, 1, 1],
-        [1, 1, 1, 0, 1, 0, 1],
-        [1, 1, 1, 0, 1, 1, 0],
-        [1, 1, 1, 1, 0, 1, 0],
-
-        [0, 2, 2, 1, 1, 1, 1],
-        [0, 1, 2, 2, 1, 1, 1],
-        [0, 1, 1, 2, 2, 1, 1],
-        [0, 1, 1, 1, 2, 2, 1],
-        [0, 1, 1, 1, 1, 2, 2],
-        [0, 2, 1, 2, 1, 1, 1],
-        [0, 2, 1, 1, 2, 1, 1],
-        [0, 2, 1, 1, 1, 2, 1],
-        [0, 2, 1, 1, 1, 1, 2],
-        [0, 1, 2, 1, 2, 1, 1],
-        [0, 1, 2, 1, 1, 2, 1],
-        [0, 1, 2, 1, 1, 1, 2],
-        [0, 1, 1, 2, 1, 2, 1],
-        [0, 1, 1, 2, 1, 1, 2],
-        [1, 0, 2, 2, 1, 1, 1],
-        [1, 0, 1, 2, 2, 1, 1],
-        [1, 0, 1, 1, 2, 2, 1],
-        [1, 0, 1, 1, 1, 2, 2],
-        [1, 0, 2, 1, 2, 1, 1],
-        [1, 0, 2, 1, 1, 2, 1],
-        [1, 0, 2, 1, 1, 1, 2],
-        [1, 0, 1, 2, 1, 2, 1],
-        [1, 0, 1, 2, 1, 1, 2],
-        [1, 0, 1, 1, 2, 1, 2],
-        [2, 0, 2, 1, 1, 1, 1],
-        [2, 0, 1, 2, 1, 1, 1],
-        [2, 0, 1, 1, 2, 1, 1],
-        [2, 0, 1, 1, 1, 2, 1],
-        [2, 0, 1, 1, 1, 1, 2],
-        [2, 2, 0, 1, 1, 1, 1],
-        [1, 1, 0, 2, 2, 1, 1],
-        [1, 1, 0, 1, 2, 2, 1],
-        [1, 1, 0, 1, 1, 2, 2],
-        [1, 1, 0, 2, 1, 2, 1],
-        [1, 1, 0, 2, 1, 1, 2],
-        [1, 1, 0, 1, 2, 1, 2],
-        [2, 1, 0, 2, 1, 1, 1],
-        [2, 1, 0, 1, 2, 1, 1],
-        [2, 1, 0, 1, 1, 2, 1],
-        [2, 1, 0, 1, 1, 1, 2],
-        [1, 2, 0, 2, 1, 1, 1],
-        [1, 2, 0, 1, 2, 1, 1],
-        [1, 2, 0, 1, 1, 2, 1],
-        [1, 2, 0, 1, 1, 1, 2],
-        [1, 1, 1, 0, 1, 1, 1],
-        [2, 2, 1, 0, 1, 1, 1],
-        [1, 2, 2, 0, 1, 1, 1],
-        [2, 1, 2, 0, 1, 1, 1],
-        [1, 1, 1, 0, 2, 2, 1],
-        [1, 1, 1, 0, 1, 2, 2],
-        [1, 1, 1, 0, 2, 1, 2],
-        [2, 1, 1, 0, 2, 1, 1],
-        [2, 1, 1, 0, 1, 2, 1],
-        [2, 1, 1, 0, 1, 1, 2],
-        [1, 2, 1, 0, 2, 1, 1],
-        [1, 2, 1, 0, 1, 2, 1],
-        [1, 2, 1, 0, 1, 1, 2],
-        [1, 1, 2, 0, 2, 1, 1],
-        [1, 1, 2, 0, 1, 2, 1],
-        [1, 1, 2, 0, 1, 1, 2],
-        [2, 2, 1, 1, 0, 1, 1],
-        [1, 2, 2, 1, 0, 1, 1],
-        [1, 1, 2, 2, 0, 1, 1],
-        [2, 1, 2, 1, 0, 1, 1],
-        [2, 1, 1, 2, 0, 1, 1],
-        [1, 2, 1, 2, 0, 1, 1],
-        [1, 1, 1, 1, 0, 2, 2],
-        [1, 1, 1, 2, 0, 2, 1],
-        [1, 1, 2, 1, 0, 2, 1],
-        [1, 2, 1, 1, 0, 2, 1],
-        [2, 1, 1, 1, 0, 2, 1],
-        [1, 1, 1, 2, 0, 1, 2],
-        [1, 1, 2, 1, 0, 1, 2],
-        [1, 2, 1, 1, 0, 1, 2],
-        [2, 1, 1, 1, 0, 1, 2],
-        [2, 2, 1, 1, 1, 0, 1],
-        [1, 2, 2, 1, 1, 0, 1],
-        [1, 1, 2, 2, 1, 0, 1],
-        [1, 1, 1, 2, 2, 0, 1],
-        [2, 1, 2, 1, 1, 0, 1],
-        [2, 1, 1, 2, 1, 0, 1],
-        [2, 1, 1, 1, 2, 0, 1],
-        [1, 2, 1, 2, 1, 0, 1],
-        [1, 2, 1, 1, 2, 0, 1],
-        [1, 1, 2, 1, 2, 0, 1],
-        [1, 1, 1, 1, 2, 0, 2],
-        [1, 1, 1, 2, 1, 0, 2],
-        [1, 1, 2, 1, 1, 0, 2],
-        [1, 2, 1, 1, 1, 0, 2],
-        [2, 1, 1, 1, 1, 0, 2],
-    ];
-    
-    var randNum = RandInt(0, patterns.length - 1);
-
-    return patterns[randNum]
+    shuffle(pattern);
+    return pattern
 };
 
 function getIcon() {
@@ -279,23 +84,23 @@ function getIcon() {
 };
 
 function Icon(id) {
-    return 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/icons/' + id + '.png'
+    return 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha@b6e04dd0e153b4218b59f88580faf9c280ad8502/icons/' + id + '.png'
 };
 
-function LoadStyles() {
+function CaptchaLoadStyles() {
     try {
         document.getElementById("IconCaptcha-Styling").outerHTML = "";
     } catch(error) {};
     var style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/captcha.css';
+    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha';
     style.id = 'IconCaptcha-Styling';
 
     document.head.appendChild(style);
 };
 
 function Captcha(onfail, onsuccess, onclose) {
-    LoadStyles();
+    CaptchaLoadStyles();
 
     CapcthaOpened = true; 
     var dialog = document.createElement('dialog');
@@ -439,65 +244,54 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
     text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
     text.classList.add('Dialog2Text');
 
-    var a1 = document.createElement('img');
-    var a2 = document.createElement('img');
-    var a3 = document.createElement('img');
-    var a4 = document.createElement('img');
-    var a5 = document.createElement('img');
-
     dialog.appendChild(text);
-
-    captcha.appendChild(a1);
-    captcha.appendChild(a2);
-    captcha.appendChild(a3);
-    captcha.appendChild(a4);
-    captcha.appendChild(a5);
-
     dialog.appendChild(captcha);
 
-    var icons = [getIcon(), getIcon(), getIcon()];
-    var images = [a1, a2, a3, a4, a5];
+    var icons = [getIcon(), getIcon(), getIcon(), getIcon()];
     var steps = [0, 1, 2, 3, 4];
 
     var pattern = getPattern();
 
     if (pattern.length >= 6) {
-        var a6 = document.createElement('img');
-        captcha.appendChild(a6);
-        images.push(a6);
         steps.push(5);
     };
 
-    if (pattern.length === 7) {
-        var a7 = document.createElement('img');
-        captcha.appendChild(a7);
-        images.push(a7);
+    if (pattern.length >= 7) {
         steps.push(6);
     };
 
+    if (pattern.length >= 8) {
+        steps.push(7)
+    }
+
     for (var i of steps) {
-        var image = images[i];
+        var image = document.createElement('img');
+        captcha.appendChild(image);
         var src = icons[pattern[i]];
         image.src = src;
-        image.style.transform = 'rotate(' + (RandInt(0, 3) * 90).toString() + 'deg)';
+        image.style.transform = 'rotate(' + (RandInt(0, 8) * 45).toString() + 'deg)';
         image.addEventListener('contextmenu', event => {
             event.preventDefault();
         });
         image.ondragstart = function() { return false; };
-        if (pattern.length !== 7) {
+        if (pattern.length !== 7 && pattern.length !== 8) {
             image.style.width = '48px';
             image.style.height = '48px';
-        } else {
+        } else if (pattern.length !== 8){
             image.style.width = '42px';
             image.style.height = '42px';
+        } else {
+            image.style.width = '36px';
+            image.style.height = '36px';
         }
+
         image.style.cursor = 'pointer';
         if (pattern[i] === 0) {
             image.addEventListener('click', success);
         } else {
             image.addEventListener('click', fail);
         };
-    };    
+    };  
 };
 
 function DestroyCaptcha() {
@@ -510,4 +304,4 @@ function DestroyCaptcha() {
 var CaptchaAttempts = 3;
 var CapcthaOpened = false;
 
-Captcha(function(){console.log("fail")}, function(){console.log("success")});
+CaptchaLoadStyles();
