@@ -283,26 +283,16 @@ function Icon(id) {
 };
 
 function Captcha(onfail, onsuccess, onclose) {
+    LoadStyles();
+
     CapcthaOpened = true; 
     var dialog = document.createElement('dialog');
-    dialog.id = 'IconCaptchaDialog';
-    dialog.style.backgroundColor = '#4c4c4c';
-    dialog.style.border = '3px solid rgba(0, 0, 0, 0.2)';
-    dialog.style.borderRadius = '15px';
-    dialog.style.padding = '10px';
-    dialog.style.paddingLeft = '25px';
-    dialog.style.paddingRight = '25px';
-    dialog.style.width = '340px';
     dialog.style.height = '70px';
-
+    dialog.id = 'IconCaptchaDialog';
+    
     var close = document.createElement('img');
     close.src = Icon('close');
-    close.style.width = '16px';
-    close.style.height = '16px';
-    close.style.position = 'relative';
-    close.style.top = '0.1%';
-    close.style.left = '107%';
-    close.style.cursor = 'pointer';
+    close.classList.add('DialogClose');
     close.addEventListener('click', function() {
         dialog.close();
         DestroyCaptcha();
@@ -311,21 +301,10 @@ function Captcha(onfail, onsuccess, onclose) {
 
     var copyright = document.createElement('div');
     copyright.innerHTML = '©Icon Captcha';
-    copyright.style.position = 'relative';
-    copyright.style.top = '0.1%';
-    copyright.style.left = '-7%';
-    copyright.style.color = 'rgba(255, 255, 255, 0.25)';
+    copyright.classList.add('DialogCopyright')
 
     var load = document.createElement('div');
-    load.style.backgroundColor = '#4c4c4c';
-    load.style.borderRadius = '50%';
-    load.style.border = '6px solid #52b3d9';
-    load.style.width = '24px';
-    load.style.height = '24px';
-    load.style.position = 'absolute';
-    load.style.top = '42px';
-    load.style.left = '18px';
-    load.style.cursor = 'pointer';
+    load.classList.add('DialogLoading');
     load.addEventListener('click', function() {
         dialog.removeChild(load);
         dialog.removeChild(loadText)
@@ -335,33 +314,10 @@ function Captcha(onfail, onsuccess, onclose) {
 
     var loadText = document.createElement('div');
     loadText.innerHTML = 'Підтвердіть, що ви людина';
-    loadText.style.color = 'white';
-    loadText.style.fontSize = '22px';
-    loadText.style.position = 'absolute';
-    loadText.style.top = '45px';
-    loadText.style.left = '70px';
-
-    var loadAnimation = document.createElement('style');
-    loadAnimation.innerHTML = `@keyframes IconCaptchaLoading {
-        0% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform:  scale(1.3);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-    }`;
-
-    document.head.appendChild(loadAnimation);
-    load.style.animation = '2s linear infinite IconCaptchaLoading';
+    loadText.classList.add('Dialog1Text');
 
     var coverDiv = document.createElement('div');
-    coverDiv.style.display = 'flex';
-    coverDiv.style.width = '66%';
+    coverDiv.classList.add('CoverDiv');
     
     coverDiv.appendChild(copyright);
     coverDiv.appendChild(close);
@@ -381,15 +337,11 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
 
         var success = document.createElement('img');
         success.src = Icon('success');
-        success.style.width = '48px';
-        success.style.height = '48px';
-        success.style.marginLeft = '20px';
-        success.style.marginRight = '5px';
+        success.classList.add('SuccessIcon')
 
         var successText = document.createElement('div');
         successText.innerHTML = 'Успішно!';
-        successText.style.color = 'darkgreen';
-        successText.style.fontSize = '32px';
+        successText.classList.add('SuccessText')
 
         captcha.style.alignItems = 'center';
         captcha.style.justifyContent = 'left'
@@ -413,10 +365,7 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
 
         var fail = document.createElement('img');
         fail.src = Icon('fail');
-        fail.style.width = '48px';
-        fail.style.height = '48px';
-        fail.style.marginLeft = '20px';
-        fail.style.marginRight = '5px';
+        fail.classList.add('SuccessIcon');
 
         var failText = document.createElement('div');
         if (CaptchaAttempts > 1) {
@@ -426,8 +375,7 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         } else {
             failText.innerHTML = 'Ой-ой...';
         };
-        failText.style.color = 'darkred';
-        failText.style.fontSize = '24px';
+        failText.classList.add('FailText');
 
         captcha.style.alignItems = 'center';
         captcha.style.justifyContent = 'left'
@@ -442,12 +390,7 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
                 if (CaptchaAttempts > 0) {
                     var close = document.createElement('img');
                     close.src = Icon('close');
-                    close.style.width = '16px';
-                    close.style.height = '16px';
-                    close.style.position = 'relative';
-                    close.style.top = '0.1%';
-                    close.style.left = '107%';
-                    close.style.cursor = 'pointer';
+                    close.classList.add('DialogClose');
                     close.addEventListener('click', function() {
                         dialog.close();
                         CapcthaOpened = false;
@@ -456,13 +399,10 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
 
                     var copyright = document.createElement('div');
                     copyright.innerHTML = '©Icon Captcha';
-                    copyright.style.position = 'relative';
-                    copyright.style.top = '0.1%';
-                    copyright.style.left = '-7%';
-                    copyright.style.color = 'rgba(255, 255, 255, 0.25)';
+                    copyright.classList.add('DialogCopyright');
+
                     var coverDiv = document.createElement('div');
-                    coverDiv.style.display = 'flex';
-                    coverDiv.style.width = '66%';
+                    coverDiv.classList.add('CoverDiv');
                     
                     coverDiv.appendChild(copyright);
                     coverDiv.appendChild(close);
@@ -481,20 +421,11 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
     var dialog = document.getElementById('IconCaptchaDialog');
 
     var captcha = document.createElement('div');
-    captcha.style.backgroundColor = '#ffffff';
-    captcha.style.display = 'flex';
-    captcha.style.justifyContent = 'center';
-    captcha.style.gap = '5px';
-    captcha.style.padding = '5px';
-    captcha.style.border = '2px solid rgba(0, 0, 0, 0.2)';
-    captcha.style.borderRadius = '10px';
+    captcha.classList.add('DialogCaptcha');
 
     var text = document.createElement('div');
     text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
-    text.style.color = '#ffffff';
-    text.style.marginTop = '15px';
-    text.style.marginBottom = '10px';
-    text.style.textAlign = 'center';
+    text.classList.add('Dialog2Text');
 
     var a1 = document.createElement('img');
     var a2 = document.createElement('img');
@@ -537,6 +468,10 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         var src = icons[pattern[i]];
         image.src = src;
         image.style.transform = 'rotate(' + (RandInt(0, 3) * 90).toString() + 'deg)';
+        image.addEventListener('contextmenu', event => {
+            event.preventDefault();
+        });
+        image.ondragstart = function() { return false; };
         if (pattern.length !== 7) {
             image.style.width = '48px';
             image.style.height = '48px';
@@ -555,6 +490,7 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
 
 function DestroyCaptcha() {
     document.getElementById('IconCaptchaDialog').outerHTML = "";
+    document.getElementById("IconCaptcha-Styling").outerHTML = "";
     CaptchaAttempts = 3;
     CapcthaOpened = false;
 };
