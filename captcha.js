@@ -282,6 +282,18 @@ function Icon(id) {
     return 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/icons/' + id + '.png'
 };
 
+function LoadStyles() {
+    try {
+        document.getElementById("IconCaptcha-Styling").outerHTML = "";
+    } catch(error) {};
+    var style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = 'https://raw.githubusercontent.com/suhorukovkirilo/iconcaptcha/main/captcha.css';
+    style.id = 'IconCaptcha-Styling';
+
+    document.head.appendChild(style);
+};
+
 function Captcha(onfail, onsuccess, onclose) {
     LoadStyles();
 
