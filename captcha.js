@@ -10,7 +10,7 @@ function shuffle(array) {
 }
 
 function getPattern() {
-    var lenght = 8;
+    var lenght = RandInt(5, 8);
     if (lenght === 5) {
         var subtype = RandInt(1, 3);
         if (subtype === 1) {
@@ -93,7 +93,7 @@ function CaptchaLoadStyles() {
     } catch(error) {};
     var style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha';
+    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/captcha.css';
     style.id = 'IconCaptcha-Styling';
 
     document.head.appendChild(style);
@@ -148,7 +148,7 @@ function Captcha(onfail, onsuccess, onclose) {
 
 };
 
-function CaptchaProccess(onfail, onsuccess, onclose) {
+async function CaptchaProccess(onfail, onsuccess, onclose) {
     function success() {
         while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
 
@@ -270,6 +270,7 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
         var src = icons[pattern[i]];
         image.src = src;
         image.style.transform = 'rotate(' + (RandInt(0, 8) * 45).toString() + 'deg)';
+        image.style.cursor = 'none';
         image.addEventListener('contextmenu', event => {
             event.preventDefault();
         });
@@ -285,13 +286,42 @@ function CaptchaProccess(onfail, onsuccess, onclose) {
             image.style.height = '36px';
         }
 
-        image.style.cursor = 'pointer';
         if (pattern[i] === 0) {
             image.addEventListener('click', success);
         } else {
             image.addEventListener('click', fail);
         };
     };  
+    
+    dialog.addEventListener('mousemove', function(event) {
+        mouseX = event.x - dialog.offsetLeft - circle.offsetWidth / 2;
+        mouseY = event.y - dialog.offsetTop - circle.offsetHeight / 2;
+    });
+
+    var circle = document.createElement('div');
+    circle.classList.add("FollowingCircle")
+    dialog.appendChild(circle);
+
+    var mouseX = 0;
+    var mouseY = 0;
+
+    var following = setInterval(function() {
+        if (circle.style.backgroundColor === 'red') {
+            clearInterval(following);
+            return false;
+        }
+
+        if ((mouseX > 19 && mouseX < 359) && (mouseY > 68 && mouseY < 125)) {
+            circle.style.visibility = 'visible';
+        } else {
+            circle.style.visibility = 'hidden';
+        };
+
+        if (mouseX < dialog.offsetWidth - 20 && mouseY < dialog.offsetHeight - 20) {
+            circle.style.left = (circle.offsetLeft + (mouseX - circle.offsetLeft) / 8).toString() + 'px';
+            circle.style.top = (circle.offsetTop + (mouseY - circle.offsetTop) / 8).toString() + 'px';
+        };
+    }, 20);
 };
 
 function DestroyCaptcha() {
