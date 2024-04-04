@@ -76,6 +76,7 @@
     padding: 5px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    cursor: none;
 }
 
 #IconCaptchaDialog .Dialog2Text {
@@ -83,6 +84,15 @@
     margin-top: 15px;
     margin-bottom: 10px;
     text-align: center;
+}
+
+#IconCaptchaDialog .FollowingCircle {
+    background-color: #52b3d9;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    pointer-events: none;
 }
 
 @keyframes IconCaptchaLoading {
