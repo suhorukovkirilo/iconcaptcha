@@ -93,7 +93,7 @@ function CaptchaLoadStyles() {
     } catch(error) {};
     var style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha/captcha.css';
+    style.href = 'C:/Users/vjhes/Downloads/captcha.css';
     style.id = 'IconCaptcha-Styling';
 
     document.head.appendChild(style);
@@ -125,7 +125,7 @@ function Captcha(onfail, onsuccess, onclose) {
     load.addEventListener('click', function() {
         dialog.removeChild(load);
         dialog.removeChild(loadText)
-        dialog.style.height = '130px';
+        dialog.style.height = '135px';
         CaptchaProccess(onfail, onsuccess, onclose);
     })
 
@@ -150,6 +150,9 @@ function Captcha(onfail, onsuccess, onclose) {
 
 async function CaptchaProccess(onfail, onsuccess, onclose) {
     function success() {
+        circle.style.backgroundColor = 'red';
+        dialog.removeChild(countdown);
+
         while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
 
         var success = document.createElement('img');
@@ -170,12 +173,16 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
             if (CapcthaOpened) {
                 dialog.close();
                 DestroyCaptcha();
+                console.log(typeof onsuccess);
                 onsuccess();
             };
         }, RandInt(2500, 4000));
     };
 
     function fail() {
+        circle.style.backgroundColor = 'red';
+        dialog.removeChild(countdown);
+
         CaptchaAttempts -= 1;
 
         while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
@@ -185,8 +192,10 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
         fail.classList.add('SuccessIcon');
 
         var failText = document.createElement('div');
-        if (CaptchaAttempts > 1) {
-            failText.innerHTML = 'Ой-ой... Лишилось ' + CaptchaAttempts.toString() + ' спроби';
+        if (countdown.innerHTML === "0:00") {
+            failText.innerHTML = 'Ой-ой... Час вийшов'
+        } else if (CaptchaAttempts > 1) {
+            failText.innerHTML = 'Ой-ой... Лишилось 2 спроби';
         } else if (CaptchaAttempts === 1) {
             failText.innerHTML = 'Ой-ой... Лишилось 1 спроба';
         } else {
@@ -244,8 +253,40 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
     text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
     text.classList.add('Dialog2Text');
 
+    var countdown = document.createElement('div');
+    countdown.innerHTML = '1:00';
+    countdown.classList.add("DialogCountdown")
+
+    setInterval(function(){
+        var minutes = parseInt(countdown.innerHTML.split(":")[0]);
+        var seconds = parseInt(countdown.innerHTML.split(":")[1]);
+        var total = 60 * minutes + seconds - 1;
+
+        var minutes = 0
+        var seconds = 0
+        while (total > 59) {
+            minutes += 1
+            total -= 60
+        };
+
+        seconds = total;
+        minutes = minutes.toString();
+        if (seconds > 9) {
+            seconds = seconds.toString();
+        } else {
+            seconds = "0" + seconds.toString();
+        }
+
+        countdown.innerHTML = minutes + ":" + seconds;
+
+        if (countdown.innerHTML === "0:00") {
+            fail();
+        }
+    }, 950);
+
     dialog.appendChild(text);
     dialog.appendChild(captcha);
+    dialog.appendChild(countdown)
 
     var icons = [getIcon(), getIcon(), getIcon(), getIcon()];
     var steps = [0, 1, 2, 3, 4];
@@ -307,6 +348,7 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
 
     var following = setInterval(function() {
         if (circle.style.backgroundColor === 'red') {
+            circle.style.visibility = 'hidden';
             clearInterval(following);
             return false;
         }
