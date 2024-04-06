@@ -1,1 +1,47 @@
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="C:\Users\vjhes\Downloads\captcha.js"></script>
+    </head>
+    <body>
+        <form style="width: 80%; height: 80%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="email" id="form2Example1" class="form-control" required/>
+              <label class="form-label" for="form2Example1">Email address</label>
+            </div>
+          
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <input type="password" id="form2Example2" class="form-control" required/>
+              <label class="form-label" for="form2Example2">Password</label>
+            </div>
+          
+            <!-- 2 column grid layout for inline styling -->
+            <div class="row mb-4">
+              <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                  <label class="form-check-label" for="form2Example31"> Remember me </label>
+                </div>
+              </div>
+          
+              <div class="col">
+                <!-- Simple link -->
+                <a href="#!">Forgot password?</a>
+              </div>
+            </div>
+          
+            <!-- Submit button -->
+            <button type="button" class="btn btn-primary btn-block mb-4" onclick="Captcha()">Sign up</button>
+            </div>
+          </form>
+        <script>
+            CaptchaConfig.onfail = function() { alert("Oops... You fail captcha")};
+            CaptchaConfig.onsuccess = function() { alert("Yoohoo! You passed captcha successfully")};
+            CaptchaConfig.onclose = CaptchaConfig.onfail;
+        </script>
+    </body>
+</html>
