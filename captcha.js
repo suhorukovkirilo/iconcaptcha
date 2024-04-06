@@ -89,23 +89,23 @@ function Icon(id) {
 
 function CaptchaLoadStyles() {
     try {
-        document.getElementById("IconCaptcha-Styling").outerHTML = "";
+        document.getElementById(CaptchaConfig.styleid).outerHTML = "";
     } catch(error) {};
     var style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'C:/Users/vjhes/Downloads/captcha.css';
+    style.href = CaptchaConfig.style;
     style.id = 'IconCaptcha-Styling';
 
     document.head.appendChild(style);
 };
 
-function Captcha(onfail, onsuccess, onclose) {
+function Captcha() {
     CaptchaLoadStyles();
 
     CapcthaOpened = true; 
     var dialog = document.createElement('dialog');
     dialog.style.height = '70px';
-    dialog.id = 'IconCaptchaDialog';
+    dialog.id = CaptchaConfig.id;
     
     var close = document.createElement('img');
     close.src = Icon('close');
@@ -125,12 +125,12 @@ function Captcha(onfail, onsuccess, onclose) {
     load.addEventListener('click', function() {
         dialog.removeChild(load);
         dialog.removeChild(loadText)
-        dialog.style.height = '135px';
-        CaptchaProccess(onfail, onsuccess, onclose);
+        dialog.style.height = '160px';
+        CaptchaProccess();
     })
 
     var loadText = document.createElement('div');
-    loadText.innerHTML = 'Підтвердіть, що ви людина';
+    loadText.innerHTML = CaptchaConfig.confirmText;
     loadText.classList.add('Dialog1Text');
 
     var coverDiv = document.createElement('div');
@@ -148,7 +148,7 @@ function Captcha(onfail, onsuccess, onclose) {
 
 };
 
-async function CaptchaProccess(onfail, onsuccess, onclose) {
+async function CaptchaProccess() {
     function success() {
         circle.style.backgroundColor = 'red';
         dialog.removeChild(countdown);
@@ -156,11 +156,11 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
         while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
 
         var success = document.createElement('img');
-        success.src = Icon('success');
+        success.src = CaptchaConfig.successIcon;
         success.classList.add('SuccessIcon')
 
         var successText = document.createElement('div');
-        successText.innerHTML = 'Успішно!';
+        successText.innerHTML = CaptchaConfig.successText;
         successText.classList.add('SuccessText')
 
         captcha.style.alignItems = 'center';
@@ -173,8 +173,7 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
             if (CapcthaOpened) {
                 dialog.close();
                 DestroyCaptcha();
-                console.log(typeof onsuccess);
-                onsuccess();
+                CaptchaConfig.onsuccess();
             };
         }, RandInt(2500, 4000));
     };
@@ -188,18 +187,18 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
         while(captcha.firstChild) captcha.removeChild(captcha.lastChild);
 
         var fail = document.createElement('img');
-        fail.src = Icon('fail');
+        fail.src = CaptchaConfig.failIcon;
         fail.classList.add('SuccessIcon');
 
         var failText = document.createElement('div');
         if (countdown.innerHTML === "0:00") {
-            failText.innerHTML = 'Ой-ой... Час вийшов'
+            failText.innerHTML = CaptchaConfig.TimeIsUp;
         } else if (CaptchaAttempts > 1) {
-            failText.innerHTML = 'Ой-ой... Лишилось 2 спроби';
+            failText.innerHTML = CaptchaConfig.Attempts2;
         } else if (CaptchaAttempts === 1) {
-            failText.innerHTML = 'Ой-ой... Лишилось 1 спроба';
+            failText.innerHTML = CaptchaConfig.Attempts1;
         } else {
-            failText.innerHTML = 'Ой-ой...';
+            failText.innerHTML = CaptchaConfig.Attempts0;
         };
         failText.classList.add('FailText');
 
@@ -234,27 +233,27 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
                     coverDiv.appendChild(close);
                     dialog.appendChild(coverDiv);
 
-                    CaptchaProccess(onfail, onsuccess, onclose);
+                    CaptchaProccess();
                     dialog.showModal();
                 } else {
                     DestroyCaptcha();
-                    onfail();
+                    CaptchaConfig.onfail();
                 };
             };
         }, RandInt(2500, 4000));
     };
 
-    var dialog = document.getElementById('IconCaptchaDialog');
+    var dialog = document.getElementById(CaptchaConfig.id);
 
     var captcha = document.createElement('div');
     captcha.classList.add('DialogCaptcha');
 
     var text = document.createElement('div');
-    text.innerHTML = 'Виберіть зображення, яке відображається рідше:';
+    text.innerHTML = CaptchaConfig.hint;
     text.classList.add('Dialog2Text');
 
     var countdown = document.createElement('div');
-    countdown.innerHTML = '1:00';
+    countdown.innerHTML = CaptchaConfig.timer;
     countdown.classList.add("DialogCountdown")
 
     setInterval(function(){
@@ -367,11 +366,30 @@ async function CaptchaProccess(onfail, onsuccess, onclose) {
 };
 
 function DestroyCaptcha() {
-    document.getElementById('IconCaptchaDialog').outerHTML = "";
-    document.getElementById("IconCaptcha-Styling").outerHTML = "";
+    document.getElementById(CaptchaConfig.id).outerHTML = "";
+    document.getElementById(CaptchaConfig.styleid).outerHTML = "";
     CaptchaAttempts = 3;
     CapcthaOpened = false;
 };
+
+var CaptchaConfig = {
+    "onfail": function(){},
+    "onsuccess": function(){},
+    "onclose": function(){},
+    "id": 'IconCaptchaDialog',
+    "styleid": 'IconCaptcha-Styling',
+    "style": "https://cdn.jsdelivr.net/gh/suhorukovkirilo/iconcaptcha@b6e04dd0e153b4218b59f88580faf9c280ad8502/captcha.css",
+    "confirmText": 'Confirm that you are human',
+    "successIcon": Icon('success'),
+    "successText": 'Successfully!',
+    "failIcon": Icon('fail'),
+    "TimeIsUp": 'Oh, oh... Time is up',
+    "Attempts2": 'Uh-uh... 2 attempts left',
+    'Attempts1': 'Oops... 1 attempt left',
+    'Attempts0': 'Oh-uh...',
+    'hint': 'Select the image displayed the less frequent of times:',
+    'timer': '1:00'
+}
 
 var CaptchaAttempts = 3;
 var CapcthaOpened = false;
